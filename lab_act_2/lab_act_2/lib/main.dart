@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:lab_act_2/dice_roller.dart';
+
+
 
 void main() {
   runApp(
@@ -6,26 +9,23 @@ void main() {
       home: Scaffold(
         body: Container(
           decoration: BoxDecoration(
-            gradient: LinearGradient(colors: [
-              const Color.fromARGB(255, 68, 255, 109),
-              const Color.fromARGB(255, 64, 255, 107)
-            ]) 
+            gradient: LinearGradient(
+             begin: Alignment.topLeft,
+            end: Alignment(0.8, 1),
+            colors: <Color>[
+              Color(0xff1f005c),
+              Color(0xff5b0060),
+              Color(0xff870160),
+              Color(0xffac255e),
+              Color(0xffca485c),
+              Color(0xffe16b5c),
+              Color(0xfff39060),
+              Color(0xffffb56b),
+            ], // Gradient from https://learnui.design/tools/gradient-generator.html
+            tileMode: .mirror,) 
           ),
           child: Center(  
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                 Image.asset(
-                  width: 200,
-                  'assets/dice-images/dice-3.png'),
-                  SizedBox(height: 25),
-                 TextButton(onPressed: () {}, child: Text(
-                  style: TextStyle(
-                    fontSize: 28
-                  ),
-                  "Roll Dice"))
-              ],
-            ) 
+            child: DiceRoller()
           ),
         ),
       ),
