@@ -1,8 +1,16 @@
 import 'package:flutter/material.dart';
 
-class QuizScreen extends StatelessWidget {
+import 'question.dart';
+
+class QuizScreen extends StatefulWidget {
   const QuizScreen({super.key});
 
+  @override
+  State<QuizScreen> createState() => _QuizScreenState();
+}
+
+class _QuizScreenState extends State<QuizScreen> {
+  int currentQuestionIndex = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -14,7 +22,7 @@ class QuizScreen extends StatelessWidget {
         decoration: BoxDecoration(color: Color.fromARGB(255, 72, 0, 144)),
         child: Center(
           child: Text(
-            'Quiz Screen',
+            questions[currentQuestionIndex].questionText,
             style: TextStyle(color: Colors.white, fontSize: 24),
           ),
         ),
