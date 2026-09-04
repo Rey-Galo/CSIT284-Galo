@@ -20,17 +20,17 @@ class HomeScreen extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Image.asset(bgImage, width: 200),
+              Image.asset(bgImage, width: 300),
               SizedBox(height: 25),
               Text(
                 'Learn flutter the fun way!',
                 style: TextStyle(
                   color: Color.fromARGB(255, 255, 255, 255),
-                  fontSize: 17,
+                  fontSize: 24,
                   fontWeight: FontWeight.w500,
                 ),
               ),
-              SizedBox(height: 30),
+              SizedBox(height: 40),
               ElevatedButton(
                 onPressed: () {
                   Navigator.push(
@@ -40,6 +40,7 @@ class HomeScreen extends StatelessWidget {
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Color.fromARGB(255, 44, 0, 88),
+                  padding: EdgeInsets.symmetric(horizontal: 35, vertical: 25),
                 ),
                 child: Text(
                   'Start Quiz',

@@ -5,6 +5,20 @@ class QuizScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: Center(child: Text('Quiz Screen')));
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Color.fromARGB(255, 72, 0, 144),
+        iconTheme: IconThemeData(color: Colors.white70),
+      ),
+      body: Container(
+        decoration: BoxDecoration(color: Color.fromARGB(255, 72, 0, 144)),
+        child: Center(
+          child: Text(
+            'Quiz Screen',
+            style: TextStyle(color: Colors.white, fontSize: 24),
+          ),
+        ),
+      ),
+    );
   }
 }
