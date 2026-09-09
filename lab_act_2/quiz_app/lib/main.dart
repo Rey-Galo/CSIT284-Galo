@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'quiz_screen.dart';
 
@@ -24,7 +25,7 @@ class HomeScreen extends StatelessWidget {
               SizedBox(height: 25),
               Text(
                 'Learn flutter the fun way!',
-                style: TextStyle(
+                style: GoogleFonts.poppins(
                   color: Color.fromARGB(255, 255, 255, 255),
                   fontSize: 24,
                   fontWeight: FontWeight.w500,
@@ -44,7 +45,11 @@ class HomeScreen extends StatelessWidget {
                 ),
                 child: Text(
                   'Start Quiz',
-                  style: TextStyle(color: Colors.white),
+                  style: GoogleFonts.poppins(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                  ),
                 ),
               ),
             ],
