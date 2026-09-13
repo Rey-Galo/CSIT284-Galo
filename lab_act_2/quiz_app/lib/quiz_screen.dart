@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'question.dart';
+import 'quiz_summary.dart';
 
 class QuizScreen extends StatefulWidget {
   const QuizScreen({super.key});
@@ -10,12 +11,15 @@ class QuizScreen extends StatefulWidget {
   State<QuizScreen> createState() => _QuizScreenState();
 }
 
+int score = 0;
 const Color backgroundColor = Color.fromARGB(255, 72, 0, 144);
 const Color buttonColor = Color.fromARGB(255, 44, 0, 88);
 const Color textColor = Color.fromARGB(255, 244, 243, 243);
 
 class _QuizScreenState extends State<QuizScreen> {
   int currentQuestionIndex = 0;
+  final List<int> chosenAnswers = [];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,12 +56,15 @@ class _QuizScreenState extends State<QuizScreen> {
                       bool isCorrect =
                           choiceIndex ==
                           questions[currentQuestionIndex].correctAnswerIndex;
+                      if (isCorrect) {
+                        score++;
+                      }
+                      chosenAnswers.add(choiceIndex);
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           backgroundColor: isCorrect
                               ? Colors.green
                               : const Color.fromARGB(255, 236, 81, 69),
-
                           content: Text(isCorrect ? 'Correct!' : 'Wrong!'),
                           duration: Duration(milliseconds: 700),
                         ),
@@ -66,7 +73,13 @@ class _QuizScreenState extends State<QuizScreen> {
                         if (currentQuestionIndex < questions.length - 1) {
                           currentQuestionIndex++;
                         } else {
-                          currentQuestionIndex = 0;
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  QuizSummary(chosenAnswers: chosenAnswers),
+                            ),
+                          );
                         }
                       });
                     },
@@ -85,7 +98,6 @@ class _QuizScreenState extends State<QuizScreen> {
                       ),
                       minimumSize: Size(double.infinity, 80),
                     ),
-
                     child: Text(choice, style: TextStyle(color: textColor)),
                   ),
                 );
