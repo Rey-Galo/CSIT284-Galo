@@ -58,11 +58,11 @@ class _ExpensesState extends State<Expenses> {
     return months.toList()..sort((a, b) => b.compareTo(a));
   }
 
-  void _openAddExpenseOverlay() {
-    showModalBottomSheet(
-      isScrollControlled: true,
-      context: context,
-      builder: (ctx) => NewExpense(onAddExpense: _addExpense),
+  Future<void> _openAddExpenseOverlay() async {
+    await Navigator.of(context).push<void>(
+      MaterialPageRoute(
+        builder: (ctx) => NewExpense(onAddExpense: _addExpense),
+      ),
     );
   }
 
@@ -155,24 +155,56 @@ class _ExpensesState extends State<Expenses> {
     );
   }
 
+  Widget _buildHeader() {
+    return Row(
+      children: [
+        const Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'GOOD AFTERNOON',
+                style: TextStyle(
+                  color: AppColors.muted,
+                  fontSize: 11,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(height: 4),
+              Text(
+                'Your spending',
+                style: TextStyle(
+                  color: AppColors.ink,
+                  fontSize: 27,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
+        ),
+        IconButton.filled(
+          onPressed: _openAddExpenseOverlay,
+          icon: const Icon(Icons.add_rounded),
+          style: IconButton.styleFrom(
+            backgroundColor: AppColors.teal,
+            foregroundColor: Colors.white,
+          ),
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final monthExpenses = _selectedMonthExpenses;
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Flutter ExpenseTracker'),
-        actions: [
-          IconButton(
-            onPressed: _openAddExpenseOverlay,
-            icon: const Icon(Icons.add),
-          ),
-        ],
-      ),
       body: SafeArea(
         child: ListView(
           padding: const EdgeInsets.all(20),
           children: [
+            _buildHeader(),
+            const SizedBox(height: 20),
             _buildMonthPicker(),
             const SizedBox(height: 18),
             _buildSpendingSummary(),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'package:expense_tracker/widgets/expenses_list/expense_item.dart';
 import 'package:expense_tracker/models/expense.dart';
+import 'package:expense_tracker/widgets/expenses_list/expense_item.dart';
 
 class ExpensesList extends StatelessWidget {
   const ExpensesList({
@@ -15,23 +15,31 @@ class ExpensesList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: expenses.length,
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      itemBuilder: (ctx, index) => Dismissible(
-        key: ValueKey(expenses[index]),
-        background: Container(
-          color: Theme.of(context).colorScheme.error.withOpacity(0.75),
-          margin: EdgeInsets.symmetric(
-            horizontal: Theme.of(context).cardTheme.margin!.horizontal,
+    return Column(
+      children: [
+        for (final expense in expenses) ...[
+          Dismissible(
+            key: ValueKey(expense.id),
+            direction: DismissDirection.endToStart,
+            background: Container(
+              alignment: Alignment.centerRight,
+              padding: const EdgeInsets.only(right: 22),
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.error
+                    .withValues(alpha: 0.12),
+                borderRadius: BorderRadius.circular(15),
+              ),
+              child: Icon(
+                Icons.delete_outline_rounded,
+                color: Theme.of(context).colorScheme.error,
+              ),
+            ),
+            onDismissed: (_) => onRemoveExpense(expense),
+            child: ExpenseItem(expense),
           ),
-        ),
-        onDismissed: (direction) {
-          onRemoveExpense(expenses[index]);
-        },
-        child: ExpenseItem(expenses[index]),
-      ),
+          const SizedBox(height: 7),
+        ],
+      ],
     );
   }
 }
