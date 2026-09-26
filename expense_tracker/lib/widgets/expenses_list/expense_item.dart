@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:expense_tracker/currency_formatter.dart';
 
 import 'package:expense_tracker/models/expense.dart';
 
@@ -19,7 +20,7 @@ class ExpenseItem extends StatelessWidget {
             const SizedBox(height: 4),
             Row(
               children: [
-                Text('\$${expense.amount.toStringAsFixed(2)}'),
+                Text(formatCompactCurrency(expense.amount)),
                 const Spacer(),
                 Row(
                   children: [
