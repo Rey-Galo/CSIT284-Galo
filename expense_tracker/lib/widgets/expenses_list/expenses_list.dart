@@ -17,6 +17,8 @@ class ExpensesList extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView.builder(
       itemCount: expenses.length,
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
       itemBuilder: (ctx, index) => Dismissible(
         key: ValueKey(expenses[index]),
         background: Container(
