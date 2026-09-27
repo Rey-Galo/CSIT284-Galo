@@ -50,6 +50,21 @@ class _ExpensesState extends State<Expenses> {
     (total, expense) => total + expense.amount,
   );
 
+  double get _previousMonthTotal {
+    final previousMonth = DateTime(
+      _selectedMonth.year,
+      _selectedMonth.month - 1,
+    );
+    final previousMonthExpenses = _registeredExpenses.where((expense) {
+      return expense.date.year == previousMonth.year &&
+          expense.date.month == previousMonth.month;
+    }).toList();
+    return previousMonthExpenses.fold(
+      0.0,
+      (total, expense) => total + expense.amount,
+    );
+  }
+
   List<DateTime> get _availableMonths {
     final months = <DateTime>{_selectedMonth};
     for (final expense in _registeredExpenses) {
@@ -129,7 +144,7 @@ class _ExpensesState extends State<Expenses> {
   Widget _buildSpendingSummary() {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       decoration: BoxDecoration(
         color: AppColors.teal,
         borderRadius: BorderRadius.circular(20),
@@ -137,6 +152,7 @@ class _ExpensesState extends State<Expenses> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          const SizedBox(height: 4),
           const Text(
             'TOTAL SPENT THIS MONTH',
             style: TextStyle(color: AppColors.tealLight, fontSize: 11),
@@ -149,6 +165,20 @@ class _ExpensesState extends State<Expenses> {
               fontSize: 30,
               fontWeight: FontWeight.bold,
             ),
+          ),
+          const SizedBox(height: 15),
+          Container(
+            height: 1,
+            width: double.infinity,
+            decoration: BoxDecoration(
+              color: AppColors.tealLight.withOpacity(0.3),
+              borderRadius: BorderRadius.circular(2),
+            ),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            'Compared to last month: ${formatCurrency(_selectedMonthTotal - _previousMonthTotal)}',
+            style: const TextStyle(color: AppColors.tealLight, fontSize: 11),
           ),
         ],
       ),
@@ -163,7 +193,7 @@ class _ExpensesState extends State<Expenses> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'GOOD AFTERNOON',
+                'Welcome back!',
                 style: TextStyle(
                   color: AppColors.muted,
                   fontSize: 11,
@@ -172,7 +202,7 @@ class _ExpensesState extends State<Expenses> {
               ),
               SizedBox(height: 4),
               Text(
-                'Your spending',
+                'Expense Tracker',
                 style: TextStyle(
                   color: AppColors.ink,
                   fontSize: 27,
@@ -180,14 +210,6 @@ class _ExpensesState extends State<Expenses> {
                 ),
               ),
             ],
-          ),
-        ),
-        IconButton.filled(
-          onPressed: _openAddExpenseOverlay,
-          icon: const Icon(Icons.add_rounded),
-          style: IconButton.styleFrom(
-            backgroundColor: AppColors.teal,
-            foregroundColor: Colors.white,
           ),
         ),
       ],
@@ -200,29 +222,66 @@ class _ExpensesState extends State<Expenses> {
 
     return Scaffold(
       body: SafeArea(
-        child: ListView(
-          padding: const EdgeInsets.all(20),
+        child: Column(
           children: [
-            _buildHeader(),
-            const SizedBox(height: 20),
-            _buildMonthPicker(),
-            const SizedBox(height: 18),
-            _buildSpendingSummary(),
-            const SizedBox(height: 20),
-            Chart(expenses: monthExpenses),
-            const SizedBox(height: 20),
-            const Text(
-              'Recent expenses',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 8),
-            if (monthExpenses.isEmpty)
-              const Text('No expenses this month.')
-            else
-              ExpensesList(
-                expenses: monthExpenses,
-                onRemoveExpense: _removeExpense,
+            Expanded(
+              child: ListView(
+                padding: const EdgeInsets.all(20),
+                children: [
+                  _buildHeader(),
+                  const SizedBox(height: 20),
+                  _buildMonthPicker(),
+                  const SizedBox(height: 18),
+                  _buildSpendingSummary(),
+                  const SizedBox(height: 20),
+                  const Text(
+                    'Spending by category',
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 8),
+                  Chart(expenses: monthExpenses),
+                  const SizedBox(height: 20),
+                  const Text(
+                    'Recent expenses',
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 8),
+                  if (monthExpenses.isEmpty)
+                    const Text('No expenses this month.')
+                  else
+                    ExpensesList(
+                      expenses: monthExpenses,
+                      onRemoveExpense: _removeExpense,
+                    ),
+                ],
               ),
+            ),
+            SafeArea(
+              top: false,
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(24, 8, 24, 8),
+                child: SizedBox(
+                  width: double.infinity,
+                  height: 52,
+                  child: FilledButton.icon(
+                    onPressed: _openAddExpenseOverlay,
+                    icon: const Icon(Icons.add_rounded),
+                    label: const Text('Add expense'),
+                    style: FilledButton.styleFrom(
+                      backgroundColor: AppColors.teal,
+                      foregroundColor: Colors.white,
+                      textStyle: const TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w700,
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(17),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
           ],
         ),
       ),
