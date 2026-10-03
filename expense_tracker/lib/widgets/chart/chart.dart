@@ -22,7 +22,7 @@ class Chart extends StatelessWidget {
     return max;
   }
 
-  String _amountLabel(double amount) => formatCompactCurrency(amount);
+  String _amountLabel(double amount) => formatCompactCurrency(amount.toInt());
 
   @override
   Widget build(BuildContext context) {

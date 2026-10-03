@@ -23,14 +23,52 @@ class _ExpensesState extends State<Expenses> {
     Expense(
       title: 'Flutter Course',
       amount: 19.99,
-      date: DateTime.now(),
+      date: DateTime(
+        int.parse(DateFormat('yyyy').format(DateTime.now())),
+        9,
+        15,
+      ),
       category: Category.work,
     ),
     Expense(
       title: 'Cinema',
       amount: 15.69,
-      date: DateTime.now(),
+      date: DateTime(
+        int.parse(DateFormat('yyyy').format(DateTime.now())),
+        9,
+        25,
+      ),
       category: Category.leisure,
+    ),
+    Expense(
+      title: 'Groceries',
+      amount: 45.23,
+      date: DateTime(
+        int.parse(DateFormat('yyyy').format(DateTime.now())),
+        10,
+        1,
+      ),
+      category: Category.food,
+    ),
+    Expense(
+      title: 'New Shoes',
+      amount: 89.99,
+      date: DateTime(
+        int.parse(DateFormat('yyyy').format(DateTime.now())),
+        10,
+        2,
+      ),
+      category: Category.leisure,
+    ),
+    Expense(
+      title: 'Flight to Siargao',
+      amount: 299.99,
+      date: DateTime(
+        int.parse(DateFormat('yyyy').format(DateTime.now())),
+        9,
+        20,
+      ),
+      category: Category.travel,
     ),
   ];
 
@@ -50,27 +88,17 @@ class _ExpensesState extends State<Expenses> {
     (total, expense) => total + expense.amount,
   );
 
-  double get _previousMonthTotal {
-    final previousMonth = DateTime(
-      _selectedMonth.year,
-      _selectedMonth.month - 1,
-    );
-    final previousMonthExpenses = _registeredExpenses.where((expense) {
-      return expense.date.year == previousMonth.year &&
-          expense.date.month == previousMonth.month;
-    }).toList();
-    return previousMonthExpenses.fold(
-      0.0,
-      (total, expense) => total + expense.amount,
-    );
-  }
-
   List<DateTime> get _availableMonths {
-    final months = <DateTime>{_selectedMonth};
+    final months = [
+      DateTime(DateTime.now().year, DateTime.now().month),
+      DateTime(DateTime.now().year, DateTime.now().month - 1),
+    ];
     for (final expense in _registeredExpenses) {
       months.add(DateTime(expense.date.year, expense.date.month));
     }
-    return months.toList()..sort((a, b) => b.compareTo(a));
+    final uniqueMonths = months.toSet().toList();
+    uniqueMonths.sort((a, b) => b.compareTo(a));
+    return uniqueMonths;
   }
 
   Future<void> _openAddExpenseOverlay() async {
@@ -142,43 +170,76 @@ class _ExpensesState extends State<Expenses> {
   }
 
   Widget _buildSpendingSummary() {
+    final amount = _selectedMonthTotal;
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      padding: const EdgeInsets.fromLTRB(20, 17, 20, 14),
       decoration: BoxDecoration(
         color: AppColors.teal,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(22),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const SizedBox(height: 4),
           const Text(
             'TOTAL SPENT THIS MONTH',
-            style: TextStyle(color: AppColors.tealLight, fontSize: 11),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            formatCurrency(_selectedMonthTotal),
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 30,
-              fontWeight: FontWeight.bold,
+            style: TextStyle(
+              color: AppColors.tealLight,
+              fontSize: 10,
+              fontWeight: FontWeight.w700,
+              letterSpacing: 0.35,
             ),
           ),
-          const SizedBox(height: 15),
+          const SizedBox(height: 3),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Expanded(
+                child: FittedBox(
+                  fit: BoxFit.scaleDown,
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    formatCurrency(amount),
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 32,
+                      fontWeight: FontWeight.w700,
+                      letterSpacing: -0.5,
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(width: 8),
+              Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 14,
+                  vertical: 8,
+                ),
+                decoration: BoxDecoration(
+                  color: const Color(0xFF2A7063),
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                child: Text(
+                  '${Category.values.length} categories',
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 11,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 7),
           Container(
-            height: 1,
             width: double.infinity,
-            decoration: BoxDecoration(
-              color: AppColors.tealLight.withOpacity(0.3),
-              borderRadius: BorderRadius.circular(2),
-            ),
+            height: 1,
+            color: const Color(0xFF2A7063),
           ),
           const SizedBox(height: 4),
-          Text(
-            'Compared to last month: ${formatCurrency(_selectedMonthTotal - _previousMonthTotal)}',
-            style: const TextStyle(color: AppColors.tealLight, fontSize: 11),
+          const Text(
+            'Across your spending categories for this period.',
+            style: TextStyle(color: AppColors.tealLight, fontSize: 10),
           ),
         ],
       ),
@@ -219,7 +280,6 @@ class _ExpensesState extends State<Expenses> {
   @override
   Widget build(BuildContext context) {
     final monthExpenses = _selectedMonthExpenses;
-
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -234,9 +294,25 @@ class _ExpensesState extends State<Expenses> {
                   const SizedBox(height: 18),
                   _buildSpendingSummary(),
                   const SizedBox(height: 20),
-                  const Text(
-                    'Spending by category',
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Spending by category',
+                        style: TextStyle(
+                          color: AppColors.ink,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Text(
+                        'This month',
+                        style: const TextStyle(
+                          color: AppColors.muted,
+                          fontSize: 12,
+                        ),
+                      ),
+                    ],
                   ),
                   const SizedBox(height: 8),
                   Chart(expenses: monthExpenses),
