@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-//import 'package:device_frame/device_frame.dart';
-//import 'package:google_fonts/google_fonts.dart';
-import 'package:meals/screens/categories.dart';
+import 'package:google_fonts/google_fonts.dart';
+
+import 'package:meals/screens/tabs.dart';
 
 final theme = ThemeData(
   useMaterial3: true,
@@ -9,7 +9,9 @@ final theme = ThemeData(
     brightness: Brightness.dark,
     seedColor: const Color.fromARGB(255, 131, 57, 0),
   ),
-  // textTheme: //GoogleFonts.latoTextTheme(),
+  textTheme: ThemeData.dark().textTheme.apply(
+    fontFamily: GoogleFonts.lato().fontFamily,
+  ),
 );
 
 void main() {
@@ -24,29 +26,7 @@ class App extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: theme,
-      home: const CategoriesScreen(),
+      home: const TabsScreen(),
     );
   }
 }
-
-// class PhonePreview extends StatelessWidget {
-//   const PhonePreview({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       debugShowCheckedModeBanner: false,
-//       home: Scaffold(
-//         backgroundColor: const Color.fromARGB(255, 18, 19, 20),
-//         body: Center(
-//           child: DeviceFrame(
-//             device: Devices.ios.iPhone15ProMax,
-//             isFrameVisible: true,
-//             orientation: Orientation.portrait,
-//             screen: const App(),
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }
