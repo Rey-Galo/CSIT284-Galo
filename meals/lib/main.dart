@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:device_frame/device_frame.dart';
+//import 'package:device_frame/device_frame.dart';
 //import 'package:google_fonts/google_fonts.dart';
 import 'package:meals/screens/categories.dart';
 
@@ -13,29 +13,7 @@ final theme = ThemeData(
 );
 
 void main() {
-  runApp(const PhonePreview());
-}
-
-class PhonePreview extends StatelessWidget {
-  const PhonePreview({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        backgroundColor: const Color.fromARGB(255, 24, 26, 29),
-        body: Center(
-          child: DeviceFrame(
-            device: Devices.ios.iPhone11ProMax,
-            isFrameVisible: true,
-            orientation: Orientation.portrait,
-            screen: const App(),
-          ),
-        ),
-      ),
-    );
-  }
+  runApp(const App());
 }
 
 class App extends StatelessWidget {
@@ -50,3 +28,25 @@ class App extends StatelessWidget {
     );
   }
 }
+
+// class PhonePreview extends StatelessWidget {
+//   const PhonePreview({super.key});
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       debugShowCheckedModeBanner: false,
+//       home: Scaffold(
+//         backgroundColor: const Color.fromARGB(255, 18, 19, 20),
+//         body: Center(
+//           child: DeviceFrame(
+//             device: Devices.ios.iPhone15ProMax,
+//             isFrameVisible: true,
+//             orientation: Orientation.portrait,
+//             screen: const App(),
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }
