@@ -70,17 +70,20 @@ class CategoriesScreen extends StatelessWidget {
           'YOUR NEXT GOOD MEAL',
           style: textTheme.labelSmall!.copyWith(
             color: MidnightKitchen.amber,
-            fontSize: 12,
-            letterSpacing: 1.5,
+            fontSize: 10,
+            fontWeight: FontWeight.w700,
+            letterSpacing: 2,
           ),
         ),
         const SizedBox(height: 12),
         Text(
-          'Find your next favorite.',
+          'Find your\nnext favorite.',
           style: textTheme.headlineLarge!.copyWith(
             color: MidnightKitchen.foreground,
             fontSize: 32,
-            fontWeight: FontWeight.w800,
+            fontWeight: FontWeight.bold,
+            height: 1.12,
+            letterSpacing: -1.2,
           ),
         ),
         const SizedBox(height: 12),
@@ -88,31 +91,37 @@ class CategoriesScreen extends StatelessWidget {
           'Explore a category. Find something delicious.',
           style: textTheme.bodyMedium!.copyWith(
             color: MidnightKitchen.muted,
-            fontSize: 14,
+            fontSize: 13,
+            height: 1.6,
           ),
         ),
-        const SizedBox(height: 32),
+        const SizedBox(height: 22),
         Wrap(
           spacing: 12,
+          alignment: WrapAlignment.spaceBetween,
           runSpacing: 8,
           crossAxisAlignment: WrapCrossAlignment.center,
           children: [
             Text(
-              'Categories',
+              'CATEGORIES',
               style: textTheme.titleMedium!.copyWith(
-                fontSize: 18,
-                fontWeight: FontWeight.w800,
+                color: MidnightKitchen.muted,
+                fontSize: 10,
+                letterSpacing: 1.6,
+                fontWeight: FontWeight.w400,
               ),
             ),
             Text(
-              '${availableCategories.length} collections',
+              '${availableCategories.length} COLLECTIONS',
               style: textTheme.bodyMedium!.copyWith(
                 color: MidnightKitchen.muted,
+                fontSize: 10,
+                letterSpacing: 1.6,
               ),
             ),
           ],
         ),
-        const SizedBox(height: 16),
+        const SizedBox(height: 12),
       ],
     );
   }
@@ -127,24 +136,24 @@ class CategoriesScreen extends StatelessWidget {
           child: CustomScrollView(
             slivers: [
               SliverPadding(
-                padding: const EdgeInsets.all(24),
+                padding: const EdgeInsets.fromLTRB(24, 14, 24, 24),
                 sliver: SliverList(
                   delegate: SliverChildListDelegate([
                     _buildHeader(context),
                     _buildCategoryTile(context, 0),
-                    const SizedBox(height: 12),
+                    const SizedBox(height: 10),
                     for (
                       var index = 1;
                       index < availableCategories.length;
                       index += 2
                     )
                       Padding(
-                        padding: const EdgeInsets.only(bottom: 12),
+                        padding: const EdgeInsets.only(bottom: 10),
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Expanded(child: _buildCategoryTile(context, index)),
-                            const SizedBox(width: 12),
+                            const SizedBox(width: 10),
                             Expanded(
                               child: index + 1 < availableCategories.length
                                   ? _buildCategoryTile(context, index + 1)

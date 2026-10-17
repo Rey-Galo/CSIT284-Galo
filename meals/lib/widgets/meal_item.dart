@@ -50,9 +50,11 @@ class MealItem extends StatelessWidget {
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                   colors: [
-                    MidnightKitchen.photoScrim.withValues(alpha: 0.1),
-                    MidnightKitchen.photoScrim.withValues(alpha: 0.95),
+                    Colors.transparent,
+                    MidnightKitchen.photoScrim.withValues(alpha: 0.8),
+                    MidnightKitchen.photoScrim,
                   ],
+                  stops: const [0, 0.65, 1],
                 ),
               ),
               padding: const EdgeInsets.fromLTRB(18, 100, 18, 18),
@@ -65,13 +67,15 @@ class MealItem extends StatelessWidget {
                     meal.title,
                     style: Theme.of(context).textTheme.titleLarge!.copyWith(
                       fontSize: 22,
-                      fontWeight: FontWeight.w800,
+                      fontWeight: FontWeight.w700,
+                      height: 1.2,
+                      letterSpacing: -0.4,
                       color: MidnightKitchen.photoText,
                     ),
                   ),
                   const SizedBox(height: 12),
                   Wrap(
-                    spacing: 12,
+                    spacing: 14,
                     runSpacing: 8,
                     children: [
                       MealItemTrait(
@@ -80,12 +84,12 @@ class MealItem extends StatelessWidget {
                         foregroundColor: MidnightKitchen.photoMuted,
                       ),
                       MealItemTrait(
-                        icon: Icons.work,
+                        icon: Icons.work_outline,
                         label: complexityText,
                         foregroundColor: MidnightKitchen.photoMuted,
                       ),
                       MealItemTrait(
-                        icon: Icons.attach_money,
+                        icon: Icons.account_balance_wallet_outlined,
                         label: affordabilityText,
                         foregroundColor: MidnightKitchen.photoMuted,
                       ),

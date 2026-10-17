@@ -19,10 +19,13 @@ class MealItemTrait extends StatelessWidget {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Icon(icon, size: 17, color: color),
-        const SizedBox(width: 6),
+        Icon(icon, size: 14, color: color),
+        const SizedBox(width: 4),
         Flexible(
-          child: Text(label, style: TextStyle(color: color)),
+          child: Text(
+            label,
+            style: TextStyle(color: color, fontSize: 11, height: 1.5),
+          ),
         ),
       ],
     );

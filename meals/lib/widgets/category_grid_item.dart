@@ -36,35 +36,83 @@ class CategoryGridItem extends StatelessWidget {
       child: InkWell(
         onTap: onSelectCategory,
         child: Container(
-          constraints: const BoxConstraints(minHeight: 115),
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Row(
-                children: [
-                  if (displayNumber != null)
-                    Text(
-                      displayNumber.toString().padLeft(2, '0'),
-                      style: Theme.of(context).textTheme.labelSmall!
-                          .copyWith(color: foreground, fontSize: 12),
+          constraints: BoxConstraints(minHeight: highlighted ? 95 : 115),
+          padding: const EdgeInsets.all(15),
+          child: highlighted
+              ? Row(
+                  children: [
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          if (displayNumber != null)
+                            Text(
+                              displayNumber.toString().padLeft(2, '0'),
+                              style: Theme.of(context).textTheme.labelSmall!
+                                  .copyWith(
+                                    color: foreground,
+                                    fontSize: 10,
+                                    letterSpacing: 1,
+                                  ),
+                            ),
+                          const SizedBox(height: 24),
+                          Text(
+                            category.title,
+                            style: Theme.of(context).textTheme.titleMedium!
+                                .copyWith(
+                                  color: foreground,
+                                  fontSize: 14,
+                                  height: 1.3,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                          ),
+                        ],
+                      ),
                     ),
-                  const Spacer(),
-                  Icon(icon, size: 24, color: foreground),
-                ],
-              ),
-              const SizedBox(height: 16),
-              Text(
-                category.title,
-                style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                  color: foreground,
-                  fontSize: 18,
-                  fontWeight: FontWeight.w800,
+                    Icon(icon, size: 22, color: foreground),
+                  ],
+                )
+              : Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Row(
+                      children: [
+                        if (displayNumber != null)
+                          Text(
+                            displayNumber.toString().padLeft(2, '0'),
+                            style: Theme.of(context).textTheme.labelSmall!
+                                .copyWith(
+                                  color: highlighted
+                                      ? foreground
+                                      : MidnightKitchen.muted,
+                                  fontSize: 10,
+                                  letterSpacing: 1,
+                                ),
+                          ),
+                        const Spacer(),
+                        Icon(
+                          icon,
+                          size: 22,
+                          color: highlighted
+                              ? foreground
+                              : MidnightKitchen.amber,
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 45),
+                    Text(
+                      category.title,
+                      style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                        color: foreground,
+                        fontSize: 14,
+                        height: 1.3,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ],
                 ),
-              ),
-            ],
-          ),
         ),
       ),
     );

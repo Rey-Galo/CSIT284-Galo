@@ -36,7 +36,7 @@ class _FiltersScreenState extends State<FiltersScreen> {
     final textTheme = Theme.of(context).textTheme;
 
     return Padding(
-      padding: const EdgeInsets.fromLTRB(24, 24, 24, 24),
+      padding: const EdgeInsets.fromLTRB(24, 14, 24, 22),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -44,22 +44,24 @@ class _FiltersScreenState extends State<FiltersScreen> {
             'MAKE IT YOURS',
             style: textTheme.labelSmall!.copyWith(
               color: MidnightKitchen.amber,
-              fontSize: 12,
-              letterSpacing: 1.5,
+              fontSize: 10,
+              letterSpacing: 2,
             ),
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: 10),
           Text(
             'Your Filters',
             style: textTheme.headlineLarge!.copyWith(
               fontSize: 32,
               fontWeight: FontWeight.w800,
+              height: 1.12,
+              letterSpacing: -1.2,
             ),
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: 10),
           Text(
             'Choose which meals appear in your categories.',
-            style: textTheme.bodyMedium!.copyWith(color: MidnightKitchen.muted),
+            style: textTheme.bodySmall!.copyWith(color: MidnightKitchen.muted),
           ),
         ],
       ),
@@ -69,7 +71,19 @@ class _FiltersScreenState extends State<FiltersScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Your Filters')),
+      appBar: AppBar(
+        title: const Text('Your Filters'),
+        actions: const [
+          Padding(
+            padding: EdgeInsets.only(right: 20),
+            child: Icon(
+              Icons.soup_kitchen_outlined,
+              size: 22,
+              color: MidnightKitchen.amber,
+            ),
+          ),
+        ],
+      ),
       body: WillPopScope(
         onWillPop: () async {
           Navigator.of(context).pop({
@@ -91,118 +105,181 @@ class _FiltersScreenState extends State<FiltersScreen> {
                     _buildHeader(context),
                     Container(
                       margin: const EdgeInsets.symmetric(horizontal: 20),
-                      decoration: BoxDecoration(
-                        color: MidnightKitchen.surface,
-                        borderRadius: BorderRadius.circular(16),
-                        border: Border.all(color: MidnightKitchen.border),
-                      ),
-                      clipBehavior: Clip.antiAlias,
-                      child: Column(
-                        children: [
-                          SwitchListTile(
-                            value: _glutenFreeFilterSet,
-                            onChanged: (isChecked) {
-                              setState(() {
-                                _glutenFreeFilterSet = isChecked;
-                              });
-                            },
-                            title: Text(
-                              'Gluten-free',
-                              style: Theme.of(context).textTheme.titleLarge!
-                                  .copyWith(color: MidnightKitchen.foreground),
+                      child: Theme(
+                        data: Theme.of(context).copyWith(
+                          switchTheme: SwitchThemeData(
+                            thumbColor: WidgetStateProperty.resolveWith(
+                              (states) => states.contains(WidgetState.selected)
+                                  ? MidnightKitchen.onAmber
+                                  : MidnightKitchen.muted,
                             ),
-                            subtitle: Text(
-                              'Only include gluten-free meals.',
-                              style: Theme.of(context).textTheme.bodyMedium!
-                                  .copyWith(color: MidnightKitchen.muted),
+                            trackColor: WidgetStateProperty.resolveWith(
+                              (states) => states.contains(WidgetState.selected)
+                                  ? MidnightKitchen.amber
+                                  : MidnightKitchen.soft,
                             ),
-                            activeColor: MidnightKitchen.amber,
-                            contentPadding: const EdgeInsets.symmetric(
-                              horizontal: 16,
-                              vertical: 8,
+                            trackOutlineColor: WidgetStateProperty.resolveWith(
+                              (states) => states.contains(WidgetState.selected)
+                                  ? MidnightKitchen.amber
+                                  : MidnightKitchen.muted,
                             ),
                           ),
-                          const Divider(height: 1, indent: 16, endIndent: 16),
-                          SwitchListTile(
-                            value: _lactoseFreeFilterSet,
-                            onChanged: (isChecked) {
-                              setState(() {
-                                _lactoseFreeFilterSet = isChecked;
-                              });
-                            },
-                            title: Text(
-                              'Lactose-free',
-                              style: Theme.of(context).textTheme.titleLarge!
-                                  .copyWith(color: MidnightKitchen.foreground),
-                            ),
-                            subtitle: Text(
-                              'Only include lactose-free meals.',
-                              style: Theme.of(context).textTheme.bodyMedium!
-                                  .copyWith(color: MidnightKitchen.muted),
-                            ),
-                            activeColor: MidnightKitchen.amber,
-                            contentPadding: const EdgeInsets.symmetric(
-                              horizontal: 16,
-                              vertical: 8,
-                            ),
+                        ),
+                        child: Material(
+                          color: MidnightKitchen.surface,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16),
                           ),
-                          const Divider(height: 1, indent: 16, endIndent: 16),
-                          SwitchListTile(
-                            value: _vegetarianFilterSet,
-                            onChanged: (isChecked) {
-                              setState(() {
-                                _vegetarianFilterSet = isChecked;
-                              });
-                            },
-                            title: Text(
-                              'Vegetarian',
-                              style: Theme.of(context).textTheme.titleLarge!
-                                  .copyWith(color: MidnightKitchen.foreground),
-                            ),
-                            subtitle: Text(
-                              'Only include vegetarian meals.',
-                              style: Theme.of(context).textTheme.bodyMedium!
-                                  .copyWith(color: MidnightKitchen.muted),
-                            ),
-                            activeColor: MidnightKitchen.amber,
-                            contentPadding: const EdgeInsets.symmetric(
-                              horizontal: 16,
-                              vertical: 8,
-                            ),
+                          clipBehavior: Clip.antiAlias,
+                          child: Column(
+                            children: [
+                              SwitchListTile(
+                                value: _glutenFreeFilterSet,
+                                onChanged: (isChecked) {
+                                  setState(() {
+                                    _glutenFreeFilterSet = isChecked;
+                                  });
+                                },
+                                title: Text(
+                                  'Gluten-free',
+                                  style: Theme.of(context).textTheme.titleSmall!
+                                      .copyWith(
+                                        color: MidnightKitchen.foreground,
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                ),
+                                subtitle: Text(
+                                  'Only include gluten-free meals.',
+                                  style: Theme.of(context).textTheme.bodySmall!
+                                      .copyWith(color: MidnightKitchen.muted),
+                                ),
+                                activeColor: MidnightKitchen.onAmber,
+                                contentPadding: const EdgeInsets.symmetric(
+                                  horizontal: 18,
+                                  vertical: 20,
+                                ),
+                              ),
+                              const Divider(
+                                height: 1,
+                                indent: 18,
+                                endIndent: 18,
+                              ),
+                              SwitchListTile(
+                                value: _lactoseFreeFilterSet,
+                                onChanged: (isChecked) {
+                                  setState(() {
+                                    _lactoseFreeFilterSet = isChecked;
+                                  });
+                                },
+                                title: Text(
+                                  'Lactose-free',
+                                  style: Theme.of(context).textTheme.titleSmall!
+                                      .copyWith(
+                                        color: MidnightKitchen.foreground,
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                ),
+                                subtitle: Text(
+                                  'Only include lactose-free meals.',
+                                  style: Theme.of(context).textTheme.bodySmall!
+                                      .copyWith(color: MidnightKitchen.muted),
+                                ),
+                                activeColor: MidnightKitchen.onAmber,
+                                contentPadding: const EdgeInsets.symmetric(
+                                  horizontal: 18,
+                                  vertical: 20,
+                                ),
+                              ),
+                              const Divider(
+                                height: 1,
+                                indent: 18,
+                                endIndent: 18,
+                              ),
+                              SwitchListTile(
+                                value: _vegetarianFilterSet,
+                                onChanged: (isChecked) {
+                                  setState(() {
+                                    _vegetarianFilterSet = isChecked;
+                                  });
+                                },
+                                title: Text(
+                                  'Vegetarian',
+                                  style: Theme.of(context).textTheme.titleSmall!
+                                      .copyWith(
+                                        color: MidnightKitchen.foreground,
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                ),
+                                subtitle: Text(
+                                  'Only include vegetarian meals.',
+                                  style: Theme.of(context).textTheme.bodySmall!
+                                      .copyWith(color: MidnightKitchen.muted),
+                                ),
+                                activeColor: MidnightKitchen.onAmber,
+                                contentPadding: const EdgeInsets.symmetric(
+                                  horizontal: 18,
+                                  vertical: 20,
+                                ),
+                              ),
+                              const Divider(
+                                height: 1,
+                                indent: 18,
+                                endIndent: 18,
+                              ),
+                              SwitchListTile(
+                                value: _veganFilterSet,
+                                onChanged: (isChecked) {
+                                  setState(() {
+                                    _veganFilterSet = isChecked;
+                                  });
+                                },
+                                title: Text(
+                                  'Vegan',
+                                  style: Theme.of(context).textTheme.titleSmall!
+                                      .copyWith(
+                                        color: MidnightKitchen.foreground,
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                ),
+                                subtitle: Text(
+                                  'Only include vegan meals.',
+                                  style: Theme.of(context).textTheme.bodySmall!
+                                      .copyWith(color: MidnightKitchen.muted),
+                                ),
+                                activeColor: MidnightKitchen.onAmber,
+                                contentPadding: const EdgeInsets.symmetric(
+                                  horizontal: 18,
+                                  vertical: 20,
+                                ),
+                              ),
+                            ],
                           ),
-                          const Divider(height: 1, indent: 16, endIndent: 16),
-                          SwitchListTile(
-                            value: _veganFilterSet,
-                            onChanged: (isChecked) {
-                              setState(() {
-                                _veganFilterSet = isChecked;
-                              });
-                            },
-                            title: Text(
-                              'Vegan',
-                              style: Theme.of(context).textTheme.titleLarge!
-                                  .copyWith(color: MidnightKitchen.foreground),
-                            ),
-                            subtitle: Text(
-                              'Only include vegan meals.',
-                              style: Theme.of(context).textTheme.bodyMedium!
-                                  .copyWith(color: MidnightKitchen.muted),
-                            ),
-                            activeColor: MidnightKitchen.amber,
-                            contentPadding: const EdgeInsets.symmetric(
-                              horizontal: 16,
-                              vertical: 8,
-                            ),
-                          ),
-                        ],
+                        ),
                       ),
                     ),
                     Padding(
                       padding: const EdgeInsets.all(24),
-                      child: Text(
-                        'Your choices apply when you go back.',
-                        style: Theme.of(context).textTheme.bodyMedium!
-                            .copyWith(color: MidnightKitchen.muted),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Icon(
+                            Icons.arrow_back,
+                            size: 16,
+                            color: MidnightKitchen.muted,
+                          ),
+                          const SizedBox(width: 10),
+                          Expanded(
+                            child: Text(
+                              'Your choices apply when you go back.',
+                              style: Theme.of(context).textTheme.bodySmall!
+                                  .copyWith(color: MidnightKitchen.muted),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ],

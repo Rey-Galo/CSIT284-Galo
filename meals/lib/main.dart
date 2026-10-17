@@ -6,7 +6,7 @@ import 'package:device_frame/device_frame.dart';
 final theme = buildMidnightKitchenTheme();
 
 void main() {
-  runApp(const PhonePreview());
+  runApp(const App());
 }
 
 class PhonePreview extends StatelessWidget {

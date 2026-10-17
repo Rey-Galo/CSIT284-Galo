@@ -107,22 +107,68 @@ class _TabsScreenState extends State<TabsScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(activePageTitle),
-        iconTheme: const IconThemeData(color: MidnightKitchen.amber),
+        iconTheme: const IconThemeData(color: MidnightKitchen.foreground),
+        actions: const [
+          Padding(
+            padding: EdgeInsets.only(right: 20),
+            child: Icon(
+              Icons.soup_kitchen_outlined,
+              size: 22,
+              color: MidnightKitchen.amber,
+            ),
+          ),
+        ],
       ),
       drawer: MainDrawer(onSelectScreen: _setScreen),
       body: activePage,
-      bottomNavigationBar: BottomNavigationBar(
-        selectedLabelStyle: const TextStyle(fontWeight: FontWeight.w800),
-        unselectedLabelStyle: const TextStyle(fontWeight: FontWeight.w400),
-        onTap: _selectPage,
-        currentIndex: _selectedPageIndex,
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.set_meal),
-            label: 'Categories',
-          ),
-          BottomNavigationBarItem(icon: Icon(Icons.star), label: 'Favorites'),
-        ],
+      bottomNavigationBar: DecoratedBox(
+        decoration: const BoxDecoration(
+          border: Border(top: BorderSide(color: MidnightKitchen.border)),
+        ),
+        child: Stack(
+          children: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(18, 10, 18, 14),
+              child: BottomNavigationBar(
+                iconSize: 22,
+                selectedFontSize: 11,
+                unselectedFontSize: 11,
+                selectedLabelStyle: const TextStyle(
+                  fontWeight: FontWeight.w800,
+                ),
+                unselectedLabelStyle: const TextStyle(
+                  fontWeight: FontWeight.w400,
+                ),
+                onTap: _selectPage,
+                currentIndex: _selectedPageIndex,
+                items: const [
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.restaurant_outlined),
+                    label: 'Categories',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.star_border),
+                    label: 'Favorites',
+                  ),
+                ],
+              ),
+            ),
+            Positioned(
+              top: 9,
+              left: 18,
+              right: 18,
+              child: Align(
+                alignment: _selectedPageIndex == 0
+                    ? Alignment.centerLeft
+                    : Alignment.centerRight,
+                child: FractionallySizedBox(
+                  widthFactor: 0.5,
+                  child: Container(height: 2, color: MidnightKitchen.amber),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
