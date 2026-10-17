@@ -6,6 +6,7 @@ import 'package:meals/screens/categories.dart';
 import 'package:meals/screens/filters.dart';
 import 'package:meals/screens/meals.dart';
 import 'package:meals/widgets/main_drawer.dart';
+import 'package:meals/theme/midnight_kitchen.dart';
 
 const kInitialFilters = {
   Filter.glutenFree: false,
@@ -104,10 +105,15 @@ class _TabsScreenState extends State<TabsScreen> {
     }
 
     return Scaffold(
-      appBar: AppBar(title: Text(activePageTitle)),
+      appBar: AppBar(
+        title: Text(activePageTitle),
+        iconTheme: const IconThemeData(color: MidnightKitchen.amber),
+      ),
       drawer: MainDrawer(onSelectScreen: _setScreen),
       body: activePage,
       bottomNavigationBar: BottomNavigationBar(
+        selectedLabelStyle: const TextStyle(fontWeight: FontWeight.w800),
+        unselectedLabelStyle: const TextStyle(fontWeight: FontWeight.w400),
         onTap: _selectPage,
         currentIndex: _selectedPageIndex,
         items: const [

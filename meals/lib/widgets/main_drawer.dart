@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:meals/theme/midnight_kitchen.dart';
 
 class MainDrawer extends StatelessWidget {
   const MainDrawer({super.key, required this.onSelectScreen});
@@ -8,21 +9,13 @@ class MainDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
+      backgroundColor: MidnightKitchen.surface,
+      surfaceTintColor: Colors.transparent,
       child: Column(
         children: [
           DrawerHeader(
             padding: const EdgeInsets.all(20),
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  Theme.of(context).colorScheme.primaryContainer,
-                  Theme.of(context).colorScheme.primaryContainer
-                      .withOpacity(0.8),
-                ],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-              ),
-            ),
+            decoration: const BoxDecoration(color: MidnightKitchen.surface),
             child: Row(
               children: [
                 Icon(
@@ -40,34 +33,38 @@ class MainDrawer extends StatelessWidget {
             ),
           ),
           ListTile(
+            contentPadding: const EdgeInsets.symmetric(
+              horizontal: 24,
+              vertical: 8,
+            ),
             leading: Icon(
               Icons.restaurant,
-              size: 26,
-              color: Theme.of(context).colorScheme.onBackground,
+              size: 24,
+              color: MidnightKitchen.foreground,
             ),
             title: Text(
               'Meals',
-              style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                color: Theme.of(context).colorScheme.onBackground,
-                fontSize: 24,
-              ),
+              style: Theme.of(context).textTheme.titleSmall!
+                  .copyWith(color: MidnightKitchen.foreground, fontSize: 18),
             ),
             onTap: () {
               onSelectScreen('meals');
             },
           ),
           ListTile(
+            contentPadding: const EdgeInsets.symmetric(
+              horizontal: 24,
+              vertical: 8,
+            ),
             leading: Icon(
               Icons.settings,
-              size: 26,
-              color: Theme.of(context).colorScheme.onBackground,
+              size: 24,
+              color: MidnightKitchen.foreground,
             ),
             title: Text(
               'Filters',
-              style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                color: Theme.of(context).colorScheme.onBackground,
-                fontSize: 24,
-              ),
+              style: Theme.of(context).textTheme.titleSmall!
+                  .copyWith(color: MidnightKitchen.foreground, fontSize: 18),
             ),
             onTap: () {
               onSelectScreen('filters');
