@@ -1,21 +1,34 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-
+import 'package:meals/theme/midnight_kitchen.dart';
 import 'package:meals/screens/tabs.dart';
+import 'package:device_frame/device_frame.dart';
 
-final theme = ThemeData(
-  useMaterial3: true,
-  colorScheme: ColorScheme.fromSeed(
-    brightness: Brightness.dark,
-    seedColor: const Color.fromARGB(255, 131, 57, 0),
-  ),
-  textTheme: ThemeData.dark().textTheme.apply(
-    fontFamily: GoogleFonts.lato().fontFamily,
-  ),
-);
+final theme = buildMidnightKitchenTheme();
 
 void main() {
-  runApp(const App());
+  runApp(const PhonePreview());
+}
+
+class PhonePreview extends StatelessWidget {
+  const PhonePreview({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: Scaffold(
+        backgroundColor: const Color.fromARGB(255, 29, 30, 31),
+        body: Center(
+          child: DeviceFrame(
+            device: Devices.ios.iPhone15Pro,
+            isFrameVisible: true,
+            orientation: Orientation.portrait,
+            screen: const App(),
+          ),
+        ),
+      ),
+    );
+  }
 }
 
 class App extends StatelessWidget {

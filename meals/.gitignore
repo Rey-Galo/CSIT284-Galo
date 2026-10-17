@@ -1,3 +1,17 @@
+# =====================================
+# AI Agents & Local Configurations
+# =====================================
+.agents/
+.agent/
+.claude/
+.codex/
+
+# =====================================
+# Personal Documentation & Proposals
+# =====================================
+docs/
+design-proposals/
+
 # Miscellaneous
 *.class
 *.log
